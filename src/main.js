@@ -68,6 +68,7 @@ Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 Vue.component('tree-table',TreeTable)
+Vue.use(VueQuillEditor)
 
 // Vue.use(ElementUI);
 Vue.use(Table)

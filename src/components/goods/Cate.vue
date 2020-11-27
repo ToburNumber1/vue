@@ -24,7 +24,20 @@
           </el-upload>
         </el-col>
       </el-row>
+      <el-row>
+        <el-col>
+<!--          富文本编辑器-->
+          <quill-editor v-model="addForm.goods_introduce"
+                        ref="myQuillEditor">
 
+<!--            :options="editorOption"-->
+<!--            @blur="onEditorBlur($event)"-->
+<!--            @focus="onEditorFocus($event)"-->
+<!--            @ready="onEditorReady($event)"-->
+          </quill-editor>
+          <el-button class="btnAdd" type="primary" @click="add">添加商品</el-button>
+        </el-col>
+      </el-row>
       <tree-table class="tree-table" :data="catelist" :columns="columns" :selection-type="false" :expand-type="false" show-index index-text="#" border :show-row-hover="false">
         <template slot="isok" slot-scope="scope">
           <i class="el-icon-success" v-if="scope.row.cat_deleted === false" style="color: lawngreen"></i>
@@ -101,7 +114,10 @@
         },
         pics: [],
         previewPath: '',
-        previewVisible: false
+        previewVisible: false,
+        addForm: {
+          goods_introduce: ''
+        }
       }
     },
     created() {
@@ -143,6 +159,9 @@
       handleSuccess(response) {
         const picInfo = {pic: response.data.tmp_path}
         this.pics.push(picInfo)
+      },
+      add() {
+
       }
     }
   }
@@ -154,5 +173,8 @@
   }
   .previewImg{
     width: 100%;
+  }
+  .btnAdd{
+    margin-top: 15px;
   }
 </style>
