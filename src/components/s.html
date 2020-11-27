@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" rel="stylesheet">
+</head>
+
+<body>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.10.1/index.js"></script>
+<div id="app">
+  <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/"
+             :on-change="onchange"
+             :file-list="fileList"
+             :auto-upload="false">
+    <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+    <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+  </el-upload>
+</div>
+<script>
+  //主要原理是this.$refs.upload.uploadFiles 控制这个，
+  //return data 里面的fileList  是显示时用来绑定数据的，和提交时的文件列表没关系，个人理解，提交时的文件列表是this.$refs.upload.uploadFiles
+  var Main = {
+    data() {
+      return {
+        fileList: []
+      };
+    },
+    methods: {
+      submitUpload() {
+        this.$refs.upload.submit();
+      },
+      onchange(f, list) {
+        if (f.size > 3000) {
+          alert("文件太大");
+          //这里还可以判断是否有重名文件，如果有也可以用下面的方法禁止出现在文件列表中
+          this.$refs.upload.uploadFiles.splice(this.$refs.upload.uploadFiles.length - 1, 1)
+        } else {
+          // this.$refs.upload.uploadFiles.push(f)
+          //这里不用手动添加
+        }
+        console.log("this.$refs.upload", this.$refs.upload.uploadFiles)
+      }
+    }
+  }
+  var Ctor = Vue.extend(Main)
+  new Ctor().$mount('#app')
+</script>
+</body>
+
+</html>
